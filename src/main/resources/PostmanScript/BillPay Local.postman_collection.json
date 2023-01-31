@@ -39,6 +39,41 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Logged User",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "aby111",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "aby@gmail.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/login/loggedUser",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"login",
+								"loggedUser"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
