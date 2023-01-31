@@ -44,7 +44,7 @@ public class BillPaySecurityConfig {
 				.addFilterAt(new AuthoritiesLoggingAtFilter(), BasicAuthenticationFilter.class)
 				.addFilterAfter(new AuthoritiesLoggingAfterFilter(), BasicAuthenticationFilter.class)
 				.authorizeHttpRequests()				
-				.requestMatchers("/bill/*", "/card/*").authenticated()
+				.requestMatchers("/bill/*", "/card/*", "/login/loggedUser").authenticated()
 				.requestMatchers("/user/saveUser").permitAll().and().formLogin().and().httpBasic();
 		
 		

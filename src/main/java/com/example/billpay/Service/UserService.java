@@ -1,5 +1,6 @@
 package com.example.billpay.Service;
 
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -76,4 +77,14 @@ public class UserService {
 		
 		return newUser;
 	}
+	
+	public User getUserDetails(String email) {
+        List<User> users = userRepo.findByEmail(email);
+        if (users.size() > 0) {
+            return users.get(0);
+        } else {
+            return null;
+        }
+
+    }
 }
