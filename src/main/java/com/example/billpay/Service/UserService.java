@@ -34,7 +34,7 @@ public class UserService {
 			throw new UserException("User name must have 3 chars");
 		} else if(user.getPwd() == null || user.getPwd().length() < 5){
 			throw new UserException("User password must have 5 chars");
-		} else if(user.getRole() == null || (!user.getRole().equalsIgnoreCase("ADMIN") && !user.getRole().equalsIgnoreCase("CUSTOMER"))) {
+		} else if(user.getRole() == null || (!user.getRole().equalsIgnoreCase("ADMIN") && !user.getRole().equalsIgnoreCase("USER"))) {
 			throw new InvalidRoleException("Please provide a valid Role");
 		}
 		
