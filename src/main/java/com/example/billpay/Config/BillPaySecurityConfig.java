@@ -23,6 +23,15 @@ import jakarta.servlet.http.HttpServletRequest;
 @Configuration
 public class BillPaySecurityConfig {
 
+	public static final String[] PUBLIC_URLS = {
+		"/user/saveUser",
+		"/v3/api-docs",
+		"/v2/api-docs",
+		"/swagger-resources/**",
+		"/swagger-ui/**",
+		"/webjars/**"
+	};
+
 	@Bean
 	SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().cors()
@@ -43,9 +52,9 @@ public class BillPaySecurityConfig {
 				.addFilterBefore(new RequestValidationBeforeFilter(), BasicAuthenticationFilter.class)
 				.addFilterAt(new AuthoritiesLoggingAtFilter(), BasicAuthenticationFilter.class)
 				.addFilterAfter(new AuthoritiesLoggingAfterFilter(), BasicAuthenticationFilter.class)
-				.authorizeHttpRequests()				
-				.requestMatchers("/bill/*", "/card/*", "/login/loggedUser").authenticated()
-				.requestMatchers("/user/saveUser").permitAll().and().formLogin().and().httpBasic();
+				.authorizeHttpRequests()
+				.requestMatchers("/bill/**", "/card/**", "/login/**").authenticated()
+				.requestMatchers(PUBLIC_URLS).permitAll().and().formLogin().and().httpBasic();
 		
 		
 		return http.build();
