@@ -3,6 +3,7 @@ package com.example.billpay.Service;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -28,6 +29,9 @@ public class CardService {
 	
 	@Autowired
 	private UserRepository userRepo;
+
+	@Autowired
+	private ModelMapper modelMapper;
 	
 	public Card saveCard(CardDto card) {		
 		if(card.getNumber() == null || card.getNumber().length() < 16) {
@@ -78,7 +82,10 @@ public class CardService {
 		}
 		
 		String nameOnCard = card.getNameOnCard() != null ? card.getNameOnCard() : "";
-		Card newCard = new Card(0, nameOnCard, card.getNumber(), card.getCvv(), card.getExpDate(), card.getBalanceAmt(), card.isActive(), card.getUserID());
+		card.setNameOnCard(nameOnCard);
+		
+		Card newCard = new Card();
+		newCard = modelMapper.map(card, Card.class);
 		cardRepo.save(newCard);
 		
 		if(newCard.getCardID() <= 0) {

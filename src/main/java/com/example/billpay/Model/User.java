@@ -13,7 +13,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.TableGenerator;
+import lombok.Data;
 
+@Data
 @Entity
 public class User {
 	
@@ -38,84 +40,4 @@ public class User {
     @JsonIgnore
     @OneToMany(mappedBy="user",fetch=FetchType.EAGER)
     private Set<Authority> authorities;
-
-	public int getUserID() {
-		return userID;
-	}
-
-	public void setUserID(int userID) {
-		this.userID = userID;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getMobile() {
-		return mobile;
-	}
-
-	public void setMobile(String mobile) {
-		this.mobile = mobile;
-	}
-
-	public String getPwd() {
-		return pwd;
-	}
-
-	public void setPwd(String pwd) {
-		this.pwd = pwd;
-	}
-
-	public String getRole() {
-		return role;
-	}
-
-	public void setRole(String role) {
-		this.role = role;
-	}
-
-	public Set<Authority> getAuthorities() {
-		return authorities;
-	}
-
-	public void setAuthorities(Set<Authority> authorities) {
-		this.authorities = authorities;
-	}
-
-	public User() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	public User(int userID, String name, String email, String mobile, String pwd, String role,
-			Set<Authority> authorities) {
-		super();
-		this.userID = userID;
-		this.name = name;
-		this.email = email;
-		this.mobile = mobile;
-		this.pwd = pwd;
-		this.role = role;
-		this.authorities = authorities;
-	}
-
-	@Override
-	public String toString() {
-		return "User [userID=" + userID + ", name=" + name + ", email=" + email + ", mobile=" + mobile + ", pwd=" + pwd
-				+ ", role=" + role + ", authorities=" + authorities + "]";
-	}
-
 }

@@ -2,6 +2,11 @@ package com.example.billpay.Util;
 
 import java.sql.Timestamp;
 
+import org.modelmapper.ModelMapper;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
+
+@Component
 public final class StaticMethods {
 
 	public static <E extends Enum<E>> boolean isValidEnum(final Class<E> enumClass, final String enumName) {
@@ -28,5 +33,10 @@ public final class StaticMethods {
 		String timeString = time.toString();
 		String output = timeString.substring(0, 10);
 		return output;
+	}
+
+	@Bean
+	public ModelMapper modelMapper(){
+		return new ModelMapper();
 	}
 }

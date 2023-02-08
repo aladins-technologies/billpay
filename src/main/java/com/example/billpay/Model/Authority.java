@@ -9,10 +9,14 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
+@Data
 @Entity
 @Table(name = "authorities")
+@NoArgsConstructor
 public class Authority {
 	@Id
     @GeneratedValue(strategy= GenerationType.AUTO,generator="native")
@@ -25,40 +29,9 @@ public class Authority {
     @JoinColumn(name = "userid")
     private User user;
 
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-	
-
-	public Authority() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
 	public Authority(String name, User user) {
 		super();
 		this.name = name;
 		this.user = user;
 	}
-	
 }

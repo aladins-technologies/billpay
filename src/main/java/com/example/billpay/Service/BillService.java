@@ -2,6 +2,7 @@ package com.example.billpay.Service;
 
 import java.sql.Timestamp;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -37,6 +38,9 @@ public class BillService {
 	
 	@Autowired
 	private UserRepository userRepo;
+
+	@Autowired
+	private ModelMapper modelMapper;
 	
 	public Bill saveBill(BillDto bill) {
 		if(bill.getNumber() == null) {
@@ -78,7 +82,8 @@ public class BillService {
 			}
 		}
 		
-		Bill newBill = new Bill(0, bill.getNumber(), bill.getDescription(), bill.getAmount(), bill.getBillDate(), bill.getDueDate(), bill.isPaid(), bill.getUserID());
+		Bill newBill = new Bill();
+		newBill = modelMapper.map(bill, Bill.class);
 		billRepo.save(newBill);
 		if(newBill.getBillID() <= 0) {
 			throw new CardException("Unable to save new Bill " + newBill.getNumber());
