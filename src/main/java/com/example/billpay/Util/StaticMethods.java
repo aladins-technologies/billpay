@@ -9,6 +9,8 @@ import org.springframework.stereotype.Component;
 @Component
 public final class StaticMethods {
 
+	public static final String APP_MAIL_ID = "billpaycreditcard@gmail.com"; 
+
 	public static <E extends Enum<E>> boolean isValidEnum(final Class<E> enumClass, final String enumName) {
         if (enumName == null) {
             return false;

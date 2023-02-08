@@ -41,6 +41,9 @@ public class BillService {
 
 	@Autowired
 	private ModelMapper modelMapper;
+
+	@Autowired
+	private EmailSenderService emailSender;
 	
 	public Bill saveBill(BillDto bill) {
 		if(bill.getNumber() == null) {
@@ -155,6 +158,12 @@ public class BillService {
 		bill.setPaid(true);
 		billRepo.save(bill);
 		
-		return "Bill " + bill.getNumber() + " with amount " + bill.getAmount() + " is paid successfully";
+		StringBuilder msg = new StringBuilder("Bill ").append(bill.getNumber()).append(" with amount ").append(bill.getAmount()).append(" is paid successfully");
+		User user = userRepo.findById(paymentDto.getUserID()).orElse(null);
+		if(user != null){
+			emailSender.sendMail(StaticMethods.APP_MAIL_ID, user.getEmail(), "Payment Successfull",
+			msg.toString());
+		}
+		return msg.toString();
 	}
 }

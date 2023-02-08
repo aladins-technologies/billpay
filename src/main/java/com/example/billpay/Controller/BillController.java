@@ -26,74 +26,74 @@ import com.example.billpay.Service.BillService;
 @RestController
 @RequestMapping("/bill")
 public class BillController {
-	
+
 	@Autowired
 	private BillService billService;
-	
+
 	@PostMapping("/saveBill")
-	public ResponseEntity<?> saveBill(@RequestBody BillDto bill){
+	public ResponseEntity<?> saveBill(@RequestBody BillDto bill) {
 		Bill newBill = null;
 		try {
 			newBill = billService.saveBill(bill);
-		} catch(BillPayException e) {
+		} catch (BillPayException e) {
 			throw e;
-		} catch(DataIntegrityViolationException e) {
+		} catch (DataIntegrityViolationException e) {
 			return new ResponseEntity<>(e.getRootCause().toString(), HttpStatus.BAD_REQUEST);
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<>("Unable to save new Bill", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		return new ResponseEntity<>(newBill, HttpStatus.CREATED);
 	}
-	
+
 	@GetMapping("/getBills")
-    public ResponseEntity<?> getBills(@RequestParam int pageNumber,
-    		@RequestParam(required = false) Integer billID,
-    		@RequestParam(required = true) Integer userID,
-    		@RequestParam(required = false) Boolean isPaid,
-    		@RequestParam(required = false) Timestamp billDate,
-    		@RequestParam(required = false) Timestamp dueDate,
-    		@RequestParam(required = false) String number) {
+	public ResponseEntity<?> getBills(@RequestParam int pageNumber,
+			@RequestParam(required = false) Integer billID,
+			@RequestParam(required = true) Integer userID,
+			@RequestParam(required = false) Boolean isPaid,
+			@RequestParam(required = false) Timestamp billDate,
+			@RequestParam(required = false) Timestamp dueDate,
+			@RequestParam(required = false) String number) {
 		Page<Bill> billPage = null;
 		try {
 			billPage = billService.getBill(pageNumber, billID, userID, isPaid, billDate, dueDate, number);
-			if(billPage != null && billPage.getNumberOfElements() <= 0) {					//elements in selected page
-				if(billPage.getTotalElements() > 0) {
+			if (billPage != null && billPage.getNumberOfElements() <= 0) { // elements in selected page
+				if (billPage.getTotalElements() > 0) {
 					throw new InvalidPageException("Requested page not available");
 				}
 				throw new CardException("No Bills available");
 			}
-			
-		} catch(BillPayException e) {
+
+		} catch (BillPayException e) {
 			throw e;
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<>("Unable to find available Bills", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		return new ResponseEntity<>(billPage, HttpStatus.OK);
-    }
-	
+	}
+
 	@DeleteMapping("/deleteBill")
 	public ResponseEntity<?> deleteBill(@RequestParam(required = true) Integer billID) {
 		String msg = "";
 		try {
 			msg = billService.deleteById(billID);
-		} catch(BillPayException e) {
+		} catch (BillPayException e) {
 			throw e;
-		} catch(Exception e) {
+		} catch (Exception e) {
 			return new ResponseEntity<>("Unable to delete Bill", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		return new ResponseEntity<>(msg, HttpStatus.OK);
 	}
-	
+
 	@PostMapping("/makePayment")
-	public ResponseEntity<?> makePayment(@RequestBody PaymentDto paymentDto){
+	public ResponseEntity<?> makePayment(@RequestBody PaymentDto paymentDto) {
 		String msg = "";
 		try {
 			msg = billService.makePayment(paymentDto);
-		} catch(BillPayException e) {
+		} catch (BillPayException e) {
 			throw e;
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<>("Unable to make payment", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
