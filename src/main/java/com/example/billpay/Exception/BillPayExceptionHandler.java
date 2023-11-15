@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 
 @ControllerAdvice
-public class BillPayExceptionHandler {
+public class BillPayExceptionHandler extends Exc{
 	
 	@ExceptionHandler(BillPayException.class)
 	public ResponseEntity<?> billPayExceptionHandler(BillPayException e){
